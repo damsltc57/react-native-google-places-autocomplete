@@ -518,7 +518,6 @@ export default class GooglePlacesAutocomplete extends Component {
 
   _onChangeText = (text) => {
     this._request(text);
-
     this.setState({
       text: text,
       listViewDisplayed: this._isMounted || this.props.autoFocus,
@@ -552,7 +551,7 @@ export default class GooglePlacesAutocomplete extends Component {
     }
 
     return (
-      <View style={[this.props.suppressDefaultStyles ? {} : defaultStyles.description, this.props.styles.description, rowData.isPredefinedPlace ? this.props.styles.predefinedPlacesDescription : {}]}
+      <View style={[this.props.suppressDefaultStyles ? {} : defaultStyles.description, this.props.styles.description, rowData.isPredefinedPlace ? this.props.styles.predefinedPlacesDescription : this.props.styles.placesDescription]}
       >
         {this._renderDescription(rowData)}
       </View>
@@ -616,7 +615,6 @@ export default class GooglePlacesAutocomplete extends Component {
 
   _onBlur = () => {
     this.triggerBlur();
-
     this.setState({
       listViewDisplayed: false
     });
@@ -674,8 +672,7 @@ export default class GooglePlacesAutocomplete extends Component {
     const keyGenerator = () => (
       Math.random().toString(36).substr(2, 10)
     );
-
-    if ((this.state.text !== '' || this.props.predefinedPlaces.length || this.props.currentLocation === true) && this.state.listViewDisplayed === true) {
+    if ((this.state.text !== '' || this.props.predefinedPlaces.length || this.props.currentLocation === true) && (this.state.listViewDisplayed === true || this.props.listViewDisplayed)) {
       return (
         <FlatList
           scrollEnabled={!this.props.disableScroll}
