@@ -88,7 +88,15 @@ export default class GooglePlacesAutocomplete extends Component {
     text: this.props.getDefaultValue(),
     dataSource: this.buildRowsFromResults([]),
     listViewDisplayed: this.props.listViewDisplayed === 'auto' ? false : this.props.listViewDisplayed,
+    sessionToken: this.createPlacesAutocompleteSessionToken()
   })
+
+  createPlacesAutocompleteSessionToken = (a) => {
+    return a
+        ? (a ^ Math.random() * 16 >> a / 4).toString(16)
+        : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, this.createPlacesAutocompleteSessionToken);
+  };
+
 
   setAddressText = address => this.setState({ text: address })
 
@@ -496,11 +504,10 @@ export default class GooglePlacesAutocomplete extends Component {
       if (this.props.preProcess) {
         text = this.props.preProcess(text);
       }
-      request.open('GET', 'https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=' + encodeURIComponent(text) + '&' + Qs.stringify(this.props.query));
+      request.open('GET', 'https://maps.googleapis.com/maps/api/place/autocomplete/json?&input=' + encodeURIComponent(text) + '&sessiontoken=' + this.state.sessionToken + '&' + Qs.stringify(this.props.query));
       if (this.props.query.origin !== null) {
          request.setRequestHeader('Referer', this.props.query.origin)
       }
-
       request.send();
     } else {
       this._results = [];
