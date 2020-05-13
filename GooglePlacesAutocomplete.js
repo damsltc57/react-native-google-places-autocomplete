@@ -592,7 +592,6 @@ export default class GooglePlacesAutocomplete extends Component {
         style={{ flex: 1 }}
         scrollEnabled={this.props.isRowScrollable}
         keyboardShouldPersistTaps={this.props.keyboardShouldPersistTaps}
-        horizontal={true}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <TouchableHighlight
